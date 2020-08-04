@@ -1,0 +1,66 @@
+#!/bin/bash
+
+x=0
+while [ $x = 0 ]
+do
+
+clear
+
+echo ""
+echo ""
+echo -e "       \e[1;32m     ______     ______   ______     ______     ______      \e[0m"
+sleep 0.01
+echo -e "       \e[1;32m    /\  ___\   /\  == \ /\  __ \   /\  __ \   /\  ___\  \e[0m"
+sleep 0.01
+echo -e "       \e[1;32m    \ \___  \  \ \  _-/ \ \ \/\ \  \ \ \/\ \  \ \  __\  \e[0m"
+sleep 0.01
+echo -e "       \e[1;32m     \/\_____\  \ \_\    \ \_____\  \ \_____\  \ \_\    \e[0m"
+sleep 0.01
+echo -e "       \e[1;32m      \/_____/   \/_/     \/_____/   \/_____/   \/_/  \e[0m  \e[37m-By Ed\e[0m"
+echo "" 
+echo ""
+                                                            
+
+
+
+	
+	echo ""
+	echo " Options:"
+	echo ""
+	echo "  [1] Start monitor mode" 
+	echo ""
+	echo -e "  [2] Get random MAC address \e[31m(Recomended)\e[0m"
+	echo ""
+	echo -e "  [3] Scan for networks \e[31m(Monitor mode required)\e[0m"
+	echo ""
+	echo "  [4] Exit"
+	echo ""
+	echo ""
+	read answer
+	
+	case "$answer" in
+	1)
+	airmon-ng start wlan0; sleep 2; ./spoof
+	x=1	
+	;;
+	2)
+	ifconfig wlan0mon down;macchanger -r wlan0mon;ifconfig wlan0mon up; sleep 2; ./spoof
+	x=1
+	;;
+	3)
+	gnome-terminal -e "bash -c \"./sscan; exec bash\""; ./spoof
+	
+	x=1
+	;;
+	4)
+	clear; airmon-ng stop wlan1mon; echo "Exiting.."; sleep 1; clear
+	x=1
+	;;
+	*) 
+	clear; echo "Unknown command"; sleep 1
+	;;
+	
+	
+esac
+
+done

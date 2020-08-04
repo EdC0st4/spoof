@@ -1,0 +1,39 @@
+
+airmon-ng start wlan0
+
+ifconfig wlan0mon down; macchanger -r wlan0mon; ifconfig wlan0mon up
+
+
+gnome-terminal -e "bash -c \"sudo airodump-ng wlan0mon; exec bash\""
+
+clear
+
+
+echo 'CHANNEL:'
+read l
+
+gnome-terminal -e "bash -c \"sudo airodump-ng wlan0mon -c $l --encrypt OPN; exec bash\""
+
+clear
+
+echo 'MAC:'
+read m
+
+ifconfig wlan1 down; macchanger -m $m wlan1; ifconfig wlan1 up
+
+
+#echo 'MAC:'  
+#read m 
+
+#sudo macchanger -m $m wlan1; sleep 3
+
+#sudo ifconfig wlan1 up
+
+
+echo -e "\e[32mEnjoy! :)\e[0m"
+
+
+
+
+
+
