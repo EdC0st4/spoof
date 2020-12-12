@@ -1,0 +1,50 @@
+#!/bin/bash
+clear
+
+# Specify interface to change MAC
+sudo iwconfig
+echo "Specify interface to change MAC:"
+read 'iface'
+clear
+
+# Change MAC addres (random)
+sudo airmon-ng stop "$iface"mon; sleep 1
+sudo ifconfig "$iface" down
+sudo macchanger -r "$iface";sleep 2
+sudo ifconfig "$iface" up
+clear
+
+# Specify interface for scanning
+sudo iwconfig
+echo "Specify interface to scan:"
+read 'iface2'
+clear
+
+# Change MAC addres (random)
+sudo airmon-ng stop "$iface2"mon; sleep 1
+sudo ifconfig "$iface2" down
+sudo macchanger -r "$iface2";sleep 2
+sudo ifconfig "$iface2" up
+clear
+
+# Start monitor mode
+
+sudo airmon-ng start "$iface2";sleep 2
+clear
+
+# Scan for networks
+sudo airodump-ng "$iface2"mon
+echo "bssid:"
+read "bssid"
+echo "channel:"
+read 'c'
+clear
+
+# Scan for clients
+sudo airodump-ng --bssid "$bssid" -c "$c" "$iface2"mon
+echo "MAC:"
+read "mac"
+
+sudo ifconfig "$iface" down
+sudo macchanger -m "$mac" "$iface";sleep 1
+sudo ifconfig "$iface" up
