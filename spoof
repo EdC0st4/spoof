@@ -28,11 +28,10 @@ sudo ifconfig "$iface2" up
 clear
 
 # Start monitor mode
-
 sudo airmon-ng start "$iface2";sleep 2
 clear
 
-# Scan for networks
+# Scan for networks (bssid, channel)
 sudo airodump-ng "$iface2"mon
 echo "bssid:"
 read "bssid"
@@ -40,11 +39,12 @@ echo "channel:"
 read 'c'
 clear
 
-# Scan for clients
+# Scan for clients (MAC address)
 sudo airodump-ng --bssid "$bssid" -c "$c" "$iface2"mon
 echo "MAC:"
 read "mac"
 
+# Change interface MAC address
 sudo ifconfig "$iface" down
 sudo macchanger -m "$mac" "$iface";sleep 1
 sudo ifconfig "$iface" up
