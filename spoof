@@ -48,3 +48,7 @@ read "mac"
 sudo ifconfig "$iface" down
 sudo macchanger -m "$mac" "$iface";sleep 1
 sudo ifconfig "$iface" up
+
+# Exit monitor mode
+sudo airmon-ng stop "iface2"mon
+
