@@ -4,7 +4,7 @@ clear
 # Specify interface to change MAC
 #iface="wlan0"
 sudo iwconfig
-echo "Specify interface to change MAC:"
+echo -e "\e[1;37mSpecify interface to change MAC:\e[0m"
 read 'iface'
 clear
 
@@ -20,7 +20,7 @@ clear
 # Specify interface for scanning
 #iface2="wlan1"
 sudo iwconfig
-echo "Specify interface to scan:"
+echo -e "\e[1;37mSpecify interface to scan:\e[0m"
 read 'iface2'
 clear
 
