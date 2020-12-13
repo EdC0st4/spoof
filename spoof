@@ -2,53 +2,61 @@
 clear
 
 # Specify interface to change MAC
+#iface="wlan0"
 sudo iwconfig
 echo "Specify interface to change MAC:"
 read 'iface'
 clear
 
 # Change MAC addres (random)
-sudo airmon-ng stop "$iface"mon; sleep 1
-sudo ifconfig "$iface" down
-sudo macchanger -r "$iface";sleep 2
-sudo ifconfig "$iface" up
+echo -e "\e[1;37mRandomizing "$iface" MAC address...\e[0m"
+sudo airmon-ng stop "$iface"mon;sleep 1
+sudo ifconfig "$iface" down;sleep 1
+sudo macchanger -r "$iface";sleep 1.5
+sudo ifconfig "$iface" up;sleep 1
 clear
 
+
 # Specify interface for scanning
+#iface2="wlan1"
 sudo iwconfig
 echo "Specify interface to scan:"
 read 'iface2'
 clear
 
 # Change MAC addres (random)
-sudo airmon-ng stop "$iface2"mon; sleep 1
-sudo ifconfig "$iface2" down
-sudo macchanger -r "$iface2";sleep 2
-sudo ifconfig "$iface2" up
+echo -e "\e[1;37mRandomizing "$iface2" MAC address...\e[0m"
+sudo airmon-ng stop "$iface2"mon;sleep 2
+sudo ifconfig "$iface2" down;sleep 1
+sudo macchanger -r "$iface2";sleep 1.5
+sudo ifconfig "$iface2" up;sleep 1
 clear
 
 # Start monitor mode
+echo -e "\e[1;37mStarting monitor mode...\e[0m"
 sudo airmon-ng start "$iface2";sleep 2
 clear
 
 # Scan for networks (bssid, channel)
 sudo airodump-ng "$iface2"mon
-echo "bssid:"
+echo -e "\e[1;32mbssid:\e[0m"
 read "bssid"
-echo "channel:"
+echo -e "\e[1;32mchannel:\e[0m"
 read 'c'
 clear
 
 # Scan for clients (MAC address)
 sudo airodump-ng --bssid "$bssid" -c "$c" "$iface2"mon
-echo "MAC:"
+echo -e "\e[1;32mMAC:\e[0m"
 read "mac"
+clear
+
+# Exit monitor mode
+echo -e "\e[1;37mExiting monitor mode...\e[0m"
+sudo airmon-ng stop "$iface2"mon
+clear
 
 # Change interface MAC address
 sudo ifconfig "$iface" down
 sudo macchanger -m "$mac" "$iface";sleep 1
 sudo ifconfig "$iface" up
-
-# Exit monitor mode
-sudo airmon-ng stop "iface2"mon
-
